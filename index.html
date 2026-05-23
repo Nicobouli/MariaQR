@@ -1,20 +1,93 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Para ti ❤️</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Para ti ❤️</title>
+
+<style>
+
+body{
+    margin:0;
+    padding:0;
+    background:linear-gradient(to bottom,#ffd6e7,#fff0f5);
+    font-family:Arial;
+    text-align:center;
+    color:#333;
+}
+
+.contenedor{
+    padding:40px 20px;
+}
+
+h1{
+    font-size:50px;
+    color:#ff4f81;
+}
+
+p{
+    font-size:22px;
+    max-width:700px;
+    margin:auto;
+    line-height:1.6;
+}
+
+.galeria{
+    margin-top:40px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:20px;
+}
+
+.galeria img{
+    width:300px;
+    border-radius:25px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.2);
+    transition:0.3s;
+}
+
+.galeria img:hover{
+    transform:scale(1.05);
+}
+
+.mensaje{
+    margin-top:50px;
+    font-size:26px;
+    color:#ff4f81;
+    font-weight:bold;
+}
+
+</style>
 </head>
 
-<body style="background:#ffd6e7; font-family:Arial; text-align:center; padding-top:100px;">
+<body>
 
-    <h1>Hola ❤️</h1>
+<div class="contenedor">
 
-    <p>
-        Si escaneaste esto, quería decirte que eres muy especial para mí.
-    </p>
+<h1>Para ti ❤️</h1>
 
-    <p>
-        Gracias por existir :)
-    </p>
+<p>
+No importa cuándo escanees este QR, 
+solo quiero que recuerdes lo especial que eres para mí.
+</p>
+
+<div class="galeria">
+    <img src="foto1.jpg">
+    <img src="foto2.jpg">
+    <img src="foto3.jpg">
+</div>
+
+<div class="mensaje">
+    Gracias por existir ✨
+</div>
+
+<audio autoplay loop controls>
+    <source src="musica.mp3" type="audio/mpeg">
+</audio>
+
+</div>
 
 </body>
 </html>
