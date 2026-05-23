@@ -1,92 +1,158 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</div>
+<h2 style="margin-top:60px;color:#ff4f81;">
+Mini juego ❤️
+</h2>
 
-<title>Para ti ❤️</title>
-
-<style>
-
-body{
-    margin:0;
-    padding:0;
-    background:linear-gradient(to bottom,#ffd6e7,#fff0f5);
-    font-family:Arial;
-    text-align:center;
-    color:#333;
-}
-
-.contenedor{
-    padding:40px 20px;
-}
-
-h1{
-    font-size:50px;
-    color:#ff4f81;
-}
-
-p{
-    font-size:22px;
-    max-width:700px;
-    margin:auto;
-    line-height:1.6;
-}
-
-.galeria{
-    margin-top:40px;
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:20px;
-}
-
-.galeria img{
-    width:300px;
-    border-radius:25px;
-    box-shadow:0 4px 15px rgba(0,0,0,0.2);
-    transition:0.3s;
-}
-
-.galeria img:hover{
-    transform:scale(1.05);
-}
-
-.mensaje{
-    margin-top:50px;
-    font-size:26px;
-    color:#ff4f81;
-    font-weight:bold;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="contenedor">
-
-<h1>Para ti ❤️</h1>
-
-<p>
-Hola mi amor, recuerda que eres el amor de mi vida y que eres lo mas importante que tengom haria cualquier cosa por ti, te amo, jamás lo olvides <3
+<p style="font-size:18px;">
+Toca la pantalla o presiona espacio para volar ✨
 </p>
 
-<div class="galeria">
-    <img src="foto1.jpg">
-    <img src="foto2.jpg">
-    <img src="foto3.jpg">
-</div>
+<canvas id="gameCanvas" width="400" height="600" 
+style="
+background:white;
+border-radius:20px;
+box-shadow:0 4px 15px rgba(0,0,0,0.2);
+max-width:90%;
+">
+</canvas>
 
-<div class="mensaje">
-    Nose que haria sin ti ❤️
-</div>
+<script>
 
-<audio autoplay loop controls>
-    <source src="diferencia.mp3" type="audio/mpeg">
-</audio>
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
 
-</div>
+let bird = {
+    x:80,
+    y:200,
+    size:20,
+    velocity:0
+};
+
+let gravity = 0.5;
+let jump = -8;
+
+let pipes = [];
+let score = 0;
+
+function createPipe(){
+    let gap = 150;
+    let topHeight = Math.random()*250 + 50;
+
+    pipes.push({
+        x:400,
+        top:topHeight,
+        bottom:topHeight + gap,
+        width:60
+    });
+}
+
+setInterval(createPipe,1800);
+
+function drawHeart(x,y,size){
+    ctx.fillStyle="#ff4f81";
+
+    ctx.beginPath();
+
+    ctx.moveTo(x,y);
+
+    ctx.bezierCurveTo(
+        x-size/2,
+        y-size/2,
+        x-size,
+        y+size/3,
+        x,
+        y+size
+    );
+
+    ctx.bezierCurveTo(
+        x+size,
+        y+size/3,
+        x+size/2,
+        y-size/2,
+        x,
+        y
+    );
+
+    ctx.fill();
+}
+
+function update(){
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    bird.velocity += gravity;
+    bird.y += bird.velocity;
+
+    drawHeart(bird.x,bird.y,bird.size);
+
+    for(let i=0;i<pipes.length;i++){
+
+        let p = pipes[i];
+
+        p.x -= 3;
+
+        ctx.fillStyle="#ff9dbb";
+
+        ctx.fillRect(p.x,0,p.width,p.top);
+
+        ctx.fillRect(
+            p.x,
+            p.bottom,
+            p.width,
+            canvas.height-p.bottom
+        );
+
+        if(
+            bird.x + bird.size > p.x &&
+            bird.x - bird.size < p.x + p.width &&
+            (
+                bird.y - bird.size < p.top ||
+                bird.y + bird.size > p.bottom
+            )
+        ){
+            resetGame();
+        }
+
+        if(p.x + p.width < 0){
+            pipes.splice(i,1);
+            score++;
+        }
+    }
+
+    if(
+        bird.y > canvas.height ||
+        bird.y < 0
+    ){
+        resetGame();
+    }
+
+    ctx.fillStyle="#ff4f81";
+    ctx.font="30px Arial";
+    ctx.fillText("❤️ "+score,20,50);
+
+    requestAnimationFrame(update);
+}
+
+function resetGame(){
+    bird.y = 200;
+    bird.velocity = 0;
+    pipes = [];
+    score = 0;
+}
+
+document.addEventListener("keydown",function(e){
+    if(e.code === "Space"){
+        bird.velocity = jump;
+    }
+});
+
+canvas.addEventListener("click",function(){
+    bird.velocity = jump;
+});
+
+update();
+
+</script>
 
 </body>
 </html>
