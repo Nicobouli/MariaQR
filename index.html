@@ -1,54 +1,69 @@
-</div>
-<h2 style="margin-top:60px;color:#ff4f81;">
-Mini juego ❤️
-</h2>
+<div style="
+margin-top:40px;
+display:flex;
+justify-content:center;
+">
 
-<p style="font-size:18px;">
-Toca la pantalla o presiona espacio para volar ✨
-</p>
-
-<canvas id="gameCanvas" width="400" height="600" 
-style="
+<div style="
 background:white;
+padding:15px;
 border-radius:20px;
 box-shadow:0 4px 15px rgba(0,0,0,0.2);
-max-width:90%;
+">
+
+<h3 style="
+color:#ff4f81;
+margin-top:0;
+">
+Mini juego ❤️
+</h3>
+
+<canvas id="miniGame" width="250" height="350"
+style="
+border-radius:15px;
+background:#fff5f8;
 ">
 </canvas>
 
+<p style="font-size:14px;">
+Toca para saltar ✨
+</p>
+
+</div>
+</div>
+
 <script>
 
-const canvas = document.getElementById("gameCanvas");
+const canvas = document.getElementById("miniGame");
 const ctx = canvas.getContext("2d");
 
-let bird = {
-    x:80,
-    y:200,
-    size:20,
-    velocity:0
-};
-
-let gravity = 0.5;
-let jump = -8;
+let birdY = 150;
+let velocity = 0;
+let gravity = 0.4;
+let jump = -6;
 
 let pipes = [];
 let score = 0;
 
-function createPipe(){
-    let gap = 150;
-    let topHeight = Math.random()*250 + 50;
+function addPipe(){
+
+    let gap = 90;
+
+    let topHeight =
+        Math.random()*140 + 40;
 
     pipes.push({
-        x:400,
+        x:250,
         top:topHeight,
         bottom:topHeight + gap,
-        width:60
+        width:40
     });
 }
 
-setInterval(createPipe,1800);
+setInterval(addPipe,1600);
 
 function drawHeart(x,y,size){
+
     ctx.fillStyle="#ff4f81";
 
     ctx.beginPath();
@@ -76,38 +91,51 @@ function drawHeart(x,y,size){
     ctx.fill();
 }
 
+function resetGame(){
+
+    birdY = 150;
+    velocity = 0;
+    pipes = [];
+    score = 0;
+}
+
 function update(){
 
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.clearRect(0,0,250,350);
 
-    bird.velocity += gravity;
-    bird.y += bird.velocity;
+    velocity += gravity;
+    birdY += velocity;
 
-    drawHeart(bird.x,bird.y,bird.size);
+    drawHeart(70,birdY,12);
 
     for(let i=0;i<pipes.length;i++){
 
         let p = pipes[i];
 
-        p.x -= 3;
+        p.x -= 2;
 
-        ctx.fillStyle="#ff9dbb";
+        ctx.fillStyle="#ffb3c7";
 
-        ctx.fillRect(p.x,0,p.width,p.top);
+        ctx.fillRect(
+            p.x,
+            0,
+            p.width,
+            p.top
+        );
 
         ctx.fillRect(
             p.x,
             p.bottom,
             p.width,
-            canvas.height-p.bottom
+            350-p.bottom
         );
 
         if(
-            bird.x + bird.size > p.x &&
-            bird.x - bird.size < p.x + p.width &&
+            82 > p.x &&
+            58 < p.x + p.width &&
             (
-                bird.y - bird.size < p.top ||
-                bird.y + bird.size > p.bottom
+                birdY-12 < p.top ||
+                birdY+12 > p.bottom
             )
         ){
             resetGame();
@@ -119,40 +147,28 @@ function update(){
         }
     }
 
-    if(
-        bird.y > canvas.height ||
-        bird.y < 0
-    ){
+    if(birdY > 350 || birdY < 0){
         resetGame();
     }
 
     ctx.fillStyle="#ff4f81";
-    ctx.font="30px Arial";
-    ctx.fillText("❤️ "+score,20,50);
+    ctx.font="20px Arial";
+    ctx.fillText("❤️ "+score,15,30);
 
     requestAnimationFrame(update);
 }
 
-function resetGame(){
-    bird.y = 200;
-    bird.velocity = 0;
-    pipes = [];
-    score = 0;
-}
-
 document.addEventListener("keydown",function(e){
+
     if(e.code === "Space"){
-        bird.velocity = jump;
+        velocity = jump;
     }
 });
 
 canvas.addEventListener("click",function(){
-    bird.velocity = jump;
+    velocity = jump;
 });
 
 update();
 
 </script>
-
-</body>
-</html>
