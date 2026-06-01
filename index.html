@@ -4,66 +4,148 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Para ti ❤️</title>
+<title>¡Boton de Disculpas! ❤️</title>
 
 <style>
-body {
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(to bottom, #ffd6e7, #fff0f5);
+body{
+    margin:0;
+    padding:0;
+    background:linear-gradient(to bottom,#ffd6e7,#fff0f5);
     font-family: Arial, sans-serif;
-    text-align: center;
-    color: #333;
+    text-align:center;
+    color:#333;
 }
 
-.contenedor {
-    padding: 40px 20px;
-}
-
-h1 {
-    font-size: 50px;
-    color: #ff4f81;
-}
-
-p {
-    font-size: 22px;
-    max-width: 700px;
-    margin: auto;
-    line-height: 1.6;
-}
-
-.galeria {
-    margin-top: 40px;
+.contenedor{
+    padding:40px 20px;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+    flex-direction: column;
+    align-items: center;
 }
 
-.galeria img {
-    width: 300px;
+h1{
+    font-size:50px;
+    color:#ff4f81;
+}
+
+p{
+    font-size:22px;
+    max-width:700px;
+    margin:auto;
+    line-height:1.6;
+}
+
+/* Imagen del gatito triste */
+.sad-kitten-img{
+    width: 250px;
     border-radius: 25px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    transition: 0.3s;
+    margin-bottom: 20px;
 }
 
-.galeria img:hover {
+/* El gran botón rojo circular */
+.big-red-button {
+    background-color: #ff3333;
+    color: white;
+    border: none;
+    padding: 30px;
+    border-radius: 50%;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 30px;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 8px 25px rgba(255, 51, 51, 0.4);
+    transition: all 0.2s ease-in-out;
+    visibility: visible;
+}
+
+.big-red-button:hover {
+    background-color: #ff0000;
     transform: scale(1.05);
 }
 
-.mensaje {
-    margin-top: 50px;
-    font-size: 26px;
-    color: #ff4f81;
-    font-weight: bold;
+.big-red-button:active {
+    background-color: #cc0000;
+    transform: scale(0.95);
+    box-shadow: 0 4px 10px rgba(255, 51, 51, 0.2);
 }
 
-/* Estilo para un indicador de música opcional (por si quieres que sepa que hay música) */
-.instruccion {
-    margin-top: 20px;
-    font-size: 14px;
-    color: #888;
+/* Contenido oculto que se revela al pulsar el botón */
+#newContent {
+    margin-top: 40px;
+    display: none; 
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.new-message {
+    font-size:20px;
+    color:#888;
     font-style: italic;
+}
+
+.dance-cat-gif {
+    width: 300px;
+    border-radius: 15px;
+}
+
+/* === Estilos del Juego === */
+#gameArea {
+    width: 90%;
+    max-width: 500px;
+    height: 350px;
+    background-color: #8B4513; 
+    border: 5px solid #ff4f81;
+    border-radius: 15px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px;
+    padding: 15px;
+    margin-top: 30px;
+}
+
+.hole {
+    background-color: #333;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.cat {
+    width: 80%;
+    height: 80%;
+    background-image: url('foto4.jpg'); /* Actualizado a foto4.jpg */
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+    position: absolute;
+    bottom: -100%; 
+    left: 10%;
+    transition: all 0.1s ease-in-out;
+}
+
+.cat.up {
+    bottom: 10%; 
+}
+
+/* Estilos de puntuación y tiempo */
+.game-ui {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
 }
 </style>
 </head>
@@ -72,49 +154,116 @@ p {
 
 <div class="contenedor">
 
-<h1>Para ti ❤️</h1>
+    <h1>Boton para dejar de pelearnos ❤️</h1>
 
-<p>
-Hola mi amor, recuerda que eres el amor de mi vida y que eres lo mas importante que tengo, haría cualquier cosa por tí, te amo, jamás lo olvides <3
-</p>
+    <img src="foto4.jpg" alt="Gatito Triste" class="sad-kitten-img">
 
-<div class="galeria">
-    <img src="foto1.jpg" alt="Foto 1">
-    <img src="foto2.jpg" alt="Foto 2">
-    <img src="foto3.jpg" alt="Foto 3">
-</div>
+    <button class="big-red-button" id="redButton">PARA DEJAR DE PELEARNOS</button>
 
-<div class="mensaje">
- No sé qué haría sin ti ❤️
-</div>
+    <div id="newContent">
+        <p class="new-message">¡Gracias! ¡Gatito bailador para celebrar! 🎵</p>
+        
+        <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3UyYjhlcnVzYnY2ejVmMnJnbXE4dTU0MGJxdnA1aTFtcWYzODUwOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/LvGx6SWHXHTQk/giphy.gif" alt="Cat Dancing" class="dance-cat-gif">
+        
+        <div id="gameArea">
+            <div class="hole"><div class="cat"></div></div>
+            <div class="hole"><div class="cat"></div></div>
+            <div class="hole"><div class="cat"></div></div>
+            <div class="hole"><div class="cat"></div></div>
+            <div class="hole"><div class="cat"></div></div>
+            <div class="hole"><div class="cat"></div></div>
+            <div class="hole"><div class="cat"></div></div>
+            <div class="hole"><div class="cat"></div></div>
+            <div class="hole"><div class="cat"></div></div>
+        </div>
 
-<p class="instruccion">(Toca la pantalla si no se escucha la música) 🎵</p>
+        <div class="game-ui">
+            <span id="scoreText">Gatos dados: 00</span>
+            <span id="timeText">Tiempo: 60s</span>
+        </div>
+    </div>
 
-<audio id="miMusica" autoplay loop>
-    <source src="diferencia.mp3" type="audio/mpeg">
-</audio>
+    <audio id="miMusica" loop>
+        <source src="miau.mp3" type="audio/mpeg">
+    </audio>
 
 </div>
 
 <script>
-// Este script soluciona el bloqueo de reproducción automática en celulares
-window.addEventListener('click', function() {
-    var audio = document.getElementById('miMusica');
-    if (audio.paused) {
-        audio.play().catch(function(error) {
-            console.log("La reproducción automática fue bloqueada por el navegador: ", error);
-        });
-    }
-});
+    const redButton = document.getElementById('redButton');
+    const newContent = document.getElementById('newContent');
+    const music = document.getElementById('miMusica');
+    const scoreText = document.getElementById('scoreText');
+    const timeText = document.getElementById('timeText');
+    const cats = document.querySelectorAll('.cat');
+    
+    let score = 0;
+    let timeLimit = 60;
+    let gameInterval;
+    let countdownInterval;
 
-window.addEventListener('touchstart', function() {
-    var audio = document.getElementById('miMusica');
-    if (audio.paused) {
-        audio.play().catch(function(error) {
-            console.log("La reproducción automática fue bloqueada en móvil: ", error);
+    // --- Función para revelar contenido e iniciar todo ---
+    redButton.addEventListener('click', function() {
+        // 1. Tocar música
+        music.play().catch(function(error) {
+            console.log("Error al reproducir audio: ", error);
         });
+        
+        // 2. Ocultar botón rojo
+        redButton.style.display = 'none';
+        
+        // 3. Revelar contenido
+        newContent.style.display = 'flex';
+        
+        // 4. Iniciar el juego
+        startGame();
+    });
+
+    // --- Lógica del Juego ---
+    function startGame() {
+        score = 0;
+        timeLimit = 60;
+        scoreText.textContent = `Gatos dados: 00`;
+        timeText.textContent = `Tiempo: 60s`;
+
+        // Temporizador de cuenta regresiva
+        countdownInterval = setInterval(() => {
+            timeLimit--;
+            timeText.textContent = `Tiempo: ${timeLimit}s`;
+            if (timeLimit <= 0) {
+                clearInterval(countdownInterval);
+                clearInterval(gameInterval);
+                alert(`¡Tiempo! Puntuación final: ${score}`);
+            }
+        }, 1000);
+
+        // Intervalo para hacer aparecer gatos
+        gameInterval = setInterval(showCat, 800); 
     }
-});
+
+    function showCat() {
+        const randomIndex = Math.floor(Math.random() * cats.length);
+        const cat = cats[randomIndex];
+        
+        if (cat.classList.contains('up')) return; 
+
+        cat.classList.add('up'); 
+
+        const timeUp = Math.random() * 500 + 400; 
+        setTimeout(() => {
+            cat.classList.remove('up'); 
+        }, timeUp);
+    }
+
+    // Lógica para hacer clic en el gato
+    cats.forEach(cat => {
+        cat.addEventListener('click', () => {
+            if (!cat.classList.contains('up')) return; 
+            score++;
+            scoreText.textContent = `Gatos dados: ${String(score).padStart(2, '0')}`;
+            cat.classList.remove('up'); 
+        });
+    });
 </script>
 
 </body>
