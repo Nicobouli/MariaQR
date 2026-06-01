@@ -35,7 +35,6 @@ p{
     line-height:1.6;
 }
 
-/* Imagen del gatito triste */
 .sad-kitten-img{
     width: 250px;
     border-radius: 25px;
@@ -43,7 +42,14 @@ p{
     margin-bottom: 20px;
 }
 
-/* El gran botón rojo circular */
+.instruccion-audio {
+    font-size: 16px;
+    color: #ff4f81;
+    font-style: italic;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
 .big-red-button {
     background-color: #ff3333;
     color: white;
@@ -53,7 +59,7 @@ p{
     font-size: 24px;
     font-weight: bold;
     cursor: pointer;
-    margin-top: 30px;
+    margin-top: 20px;
     width: 200px;
     height: 200px;
     display: flex;
@@ -61,7 +67,6 @@ p{
     align-items: center;
     box-shadow: 0 8px 25px rgba(255, 51, 51, 0.4);
     transition: all 0.2s ease-in-out;
-    visibility: visible;
 }
 
 .big-red-button:hover {
@@ -72,10 +77,8 @@ p{
 .big-red-button:active {
     background-color: #cc0000;
     transform: scale(0.95);
-    box-shadow: 0 4px 10px rgba(255, 51, 51, 0.2);
 }
 
-/* Contenido oculto que se revela al pulsar el botón */
 #newContent {
     margin-top: 40px;
     display: none; 
@@ -123,7 +126,7 @@ p{
 .cat {
     width: 80%;
     height: 80%;
-    background-image: url('foto4.jpg'); /* Actualizado a foto4.jpg */
+    background-image: url('foto4.jpg'); 
     background-size: cover;
     background-position: center;
     border-radius: 50%;
@@ -137,15 +140,42 @@ p{
     bottom: 10%; 
 }
 
-/* Estilos de puntuación y tiempo */
 .game-ui {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
     width: 100%;
     max-width: 400px;
     margin-top: 15px;
     font-size: 18px;
     font-weight: bold;
+}
+
+.ui-counters {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+/* Botón de reinicio */
+.restart-button {
+    background-color: #ff4f81;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(2ff, 79, 129, 0.3);
+    display: none; /* Oculto hasta que termine el juego */
+    transition: 0.2s;
+}
+
+.restart-button:hover {
+    background-color: #e03565;
+    transform: scale(1.05);
 }
 </style>
 </head>
@@ -157,6 +187,8 @@ p{
     <h1>Boton para dejar de pelearnos ❤️</h1>
 
     <img src="foto4.jpg" alt="Gatito Triste" class="sad-kitten-img">
+
+    <p class="instruccion-audio" id="instruccionTxt">(Toca dos veces la pantalla para activar la música) 🎵</p>
 
     <button class="big-red-button" id="redButton">PARA DEJAR DE PELEARNOS</button>
 
@@ -178,8 +210,11 @@ p{
         </div>
 
         <div class="game-ui">
-            <span id="scoreText">Gatos dados: 00</span>
-            <span id="timeText">Tiempo: 60s</span>
+            <div class="ui-counters">
+                <span id="scoreText">Gatos dados: 00</span>
+                <span id="timeText">Tiempo: 30s</span>
+            </div>
+            <button class="restart-button" id="restartBtn">Volver a jugar 🎮</button>
         </div>
     </div>
 
@@ -191,42 +226,40 @@ p{
 
 <script>
     const redButton = document.getElementById('redButton');
+    const instruccionTxt = document.getElementById('instruccionTxt');
     const newContent = document.getElementById('newContent');
     const music = document.getElementById('miMusica');
     const scoreText = document.getElementById('scoreText');
     const timeText = document.getElementById('timeText');
+    const restartBtn = document.getElementById('restartBtn');
     const cats = document.querySelectorAll('.cat');
     
     let score = 0;
-    let timeLimit = 60;
+    let timeLimit = 30; // Modificado a 30 segundos
     let gameInterval;
     let countdownInterval;
 
-    // --- Función para revelar contenido e iniciar todo ---
+    // --- Iniciar todo con el botón rojo ---
     redButton.addEventListener('click', function() {
-        // 1. Tocar música
         music.play().catch(function(error) {
             console.log("Error al reproducir audio: ", error);
         });
         
-        // 2. Ocultar botón rojo
         redButton.style.display = 'none';
-        
-        // 3. Revelar contenido
+        instruccionTxt.style.display = 'none'; // Oculta la instrucción
         newContent.style.display = 'flex';
         
-        // 4. Iniciar el juego
         startGame();
     });
 
     // --- Lógica del Juego ---
     function startGame() {
         score = 0;
-        timeLimit = 60;
+        timeLimit = 30; // Tiempo límite actualizado
         scoreText.textContent = `Gatos dados: 00`;
-        timeText.textContent = `Tiempo: 60s`;
+        timeText.textContent = `Tiempo: 30s`;
+        restartBtn.style.display = 'none'; // Asegura ocultar el botón de reinicio al empezar
 
-        // Temporizador de cuenta regresiva
         countdownInterval = setInterval(() => {
             timeLimit--;
             timeText.textContent = `Tiempo: ${timeLimit}s`;
@@ -234,11 +267,11 @@ p{
                 clearInterval(countdownInterval);
                 clearInterval(gameInterval);
                 alert(`¡Tiempo! Puntuación final: ${score}`);
+                restartBtn.style.display = 'block'; // Muestra el botón para volver a jugar
             }
         }, 1000);
 
-        // Intervalo para hacer aparecer gatos
-        gameInterval = setInterval(showCat, 800); 
+        gameInterval = setInterval(showCat, 750); // Un pelín más rápido ya que dura 30s
     }
 
     function showCat() {
@@ -249,13 +282,13 @@ p{
 
         cat.classList.add('up'); 
 
-        const timeUp = Math.random() * 500 + 400; 
+        const timeUp = Math.random() * 400 + 400; 
         setTimeout(() => {
             cat.classList.remove('up'); 
         }, timeUp);
     }
 
-    // Lógica para hacer clic en el gato
+    // Registrar los golpes a los gatos
     cats.forEach(cat => {
         cat.addEventListener('click', () => {
             if (!cat.classList.contains('up')) return; 
@@ -263,6 +296,11 @@ p{
             scoreText.textContent = `Gatos dados: ${String(score).padStart(2, '0')}`;
             cat.classList.remove('up'); 
         });
+    });
+
+    // --- Evento para el botón de reiniciar ---
+    restartBtn.addEventListener('click', () => {
+        startGame();
     });
 </script>
 
